@@ -3,42 +3,119 @@
 // icon-color: red; icon-glyph: bicycle;
 
 class Section {
-  constructor(timestamp, zone, cadence_low, cadence_high, resistance_low, resistance_high) {
-    this.timestamp = timestamp;
-    this.zone = zone;
-    this.cadence_low = cadence_low;
-    this.cadence_high = cadence_high;
-    this.resistance_low = resistance_low;
-    this.resistance_high = resistance_high;
+  constructor(d) {
+    this.verb = d['verb'];
+    var hours_minutes = d['timestamp'].split(':');
+    this.remaining_before_section = parseInt(hours_minutes[0]) * 60 + parseInt(hours_minutes[1]);
+    if ('cadence' in d) {
+      this.cadence = d['cadence'];
+    } else {
+      this.cadence = false;
+    }
+    if ('resistance' in d) {
+      this.resistance = d['resistance'];
+    } else {
+      this.resistance = false;
+    }
+    if ('zone' in d) {
+      this.zone = d['zone'];
+    } else {
+      this.zone = false;
+    }
+    if ('zone_mod' in d) {
+      this.zone_mod = d['zone_mod'];
+    } else {
+      this.zone_mod = false;
+    }
+    if ('other' in d) {
+      this.other = d['other'];
+    } else {
+      this.other = false;
+    }
   }
 
-  body() {
-    var cadence_str = this.cadence_low == this.cadence_high ?
-                                          this.cadence_low :
-                                          `${this.cadence_low} - ${this.cadence_high}`;
-    var resistance_str = this.resistance_low == this.resistance_high ?
-                                          this.resistance_low :
-                                          `${this.resistance_low} - ${this.resistance_high}`;
-    return `Zone ${this.zone}, Cadence ${cadence_str}, Resistance ${resistance_str}`;
+  targets() {
+    var text = `${this.verb}`;
+    if (this.other) {
+      text += ` ${this.other}`;
+    }
+    if (this.zone) {
+      if (this.zone_mod) {
+        text += ` in ${this.zone_mod} zone ${this.zone}`;
+      } else {
+        text += ` in zone ${this.zone}`;
+      }
+    }
+    if (this.resistance) {
+      text += ` with ${this.resistance} resistance`;
+    }
+    if (this.cadence) {
+      text += ` at ${this.cadence} cadence`;
+    }
+    return text;
+  }
+  
+  duration(remaining_after_section) {
+    var delta = this.remaining_before_section - remaining_after_section;
+    if (delta <= 90) {  // round up to the next 5 seconds
+      return `${this.roundXToNearestY(delta, 5)} seconds`;
+    } else {               // round to the nearest 60 seconds
+      return `${this.roundXToNearestY(delta, 60) / 60} minutes`;
+    }
+  }
+  
+  roundXToNearestY(x, y) {
+    if ((x % y) >= y / 2) {
+      return parseInt(x / y) * y + y; 
+    } else {
+      return parseInt(x / y) * y;
+    }
   }
 }
 
-var ride_duration = 1; // minutes
-var ride_sections = [new Section(0, 1, 90, 90, 25, 35),
-                new Section(5000, 2, 60, 70, 35, 45)];
-
+var data = {
+  url: 'redacted',
+  duration: 30,
+  sections: [
+    {
+      verb: `redacted`,
+      timestamp: '30:00',
+      cadence: 'redacted',
+      resistance: 'redacted',
+      zone: 'redacted'
+    }
+  ]
+}
+var ride_duration = data.duration * 60
+var sections = [];
+if (data.sections.length > 62) {
+  console.log(`Error: Only the first 62 of ${data.sections.length} sections can be scheduled.`);
+  return;
+}
+for (var i = 0; i < data.sections.length; i++) {
+  sections.push(new Section(data.sections[i]));
+}
 var start = new Date();
-var delay = 2000;
 
-for (var i = 0; i < ride_sections.length; i++) {
+function scheduleNotification(title, body, seconds) {
   var notif = new Notification();
-  var section_milliseconds = (ride_duration * 60 * 1000) - ride_sections[i].timestamp;
-  if (i < ride_sections.length - 1) {
-    section_milliseconds = ride_sections[i + 1].timestamp - ride_sections[i].timestamp;
-  }
-  section_minutes = section_milliseconds / (1000 * 60);
-  notif.title = `Ride for ${section_minutes} mins`;
-  notif.body = ride_sections[i].body();  //TODO put all info in title and use this for up next
-  notif.setTriggerDate(new Date(start.getTime() + ride_sections[i].timestamp + delay));
+  notif.title = title;
+  notif.body = body;
+  notif.setTriggerDate(new Date(start.getTime() + 5000 + seconds * 1000/* / 15*/));
   notif.schedule();
+}
+
+scheduleNotification(`On your Peloton, tap now to skip the intro`,
+                     ``,
+                     0);
+for (var i = 0; i < sections.length - 1; i++) {
+  scheduleNotification(`${sections[i].targets()} for ${sections[i].duration(sections[i + 1].remaining_before_section)}`,
+                       `Next: ${sections[i + 1].targets()}`,
+                       ride_duration - sections[i].remaining_before_section);
 };
+scheduleNotification(`${sections[i].targets()} for ${sections[i].duration(0)}`,
+                     `Next: Cool down and stretch`,
+                     ride_duration - sections[i].remaining_before_section);
+scheduleNotification(`Ride complete! Remember to cool down and stretch`,
+                     ``,
+                     ride_duration);
