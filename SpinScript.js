@@ -57,10 +57,13 @@ class Section {
   
   duration(remaining_after_section) {
     var delta = this.remaining_before_section - remaining_after_section;
-    if (delta <= 90) {  // round up to the next 5 seconds
+    if (delta <= 50) {
       return `${this.roundXToNearestY(delta, 5)} seconds`;
-    } else {               // round to the nearest 60 seconds
-      return `${this.roundXToNearestY(delta, 60) / 60} minutes`;
+    } else if (70 <= delta && delta <= 90) {
+      return `${this.roundXToNearestY(delta, 5)} seconds`;
+    } else {
+      var minutes = this.roundXToNearestY(delta, 60) / 60;
+      return minutes == 1 ? `1 minute` : `${minutes} minutes`;
     }
   }
   
@@ -99,15 +102,17 @@ var start = new Date();
 
 function scheduleNotification(title, body, seconds) {
   var notif = new Notification();
+  notif.threadIdentifier = 'com.scriptable.spinscript'; 
   notif.title = title;
   notif.body = body;
   notif.setTriggerDate(new Date(start.getTime() + 5000 + seconds * 1000/* / 15*/));
   notif.schedule();
 }
 
-scheduleNotification(`On your Peloton, tap now to skip the intro`,
+await Notification.removeAllPending();
+scheduleNotification(`On your bike, tap now to start the ride's 1-minute intro`,
                      ``,
-                     0);
+                     -60);
 for (var i = 0; i < sections.length - 1; i++) {
   scheduleNotification(`${sections[i].targets()} for ${sections[i].duration(sections[i + 1].remaining_before_section)}`,
                        `Next: ${sections[i + 1].targets()}`,
