@@ -78,17 +78,36 @@ class Section {
 
 var data = {
   url: 'redacted',
-  duration: 30,
+  title: 'redacted',
+  instructor: 'redacted',
+  timetamp: 'redacted',
+  duration: 45,
   sections: [
     {
       verb: `redacted`,
-      timestamp: '30:00',
+      timestamp: '45:00',
       cadence: 'redacted',
       resistance: 'redacted',
-      zone: 'redacted'
+      zone: 'redacted',
     }
   ]
 }
+// var data = {
+//   url: 'redacted',
+//   title: 'redacted',
+//   instructor: 'redacted',
+//   timetamp: 'redacted',
+//   duration: 30,
+//   sections: [
+//     {
+//       verb: `redacted`,
+//       timestamp: '30:00',
+//       cadence: 'redacted',
+//       resistance: 'redacted',
+//       zone: 'redacted'
+//     }
+//   ]
+// }
 var ride_duration = data.duration * 60
 var sections = [];
 if (data.sections.length > 62) {
