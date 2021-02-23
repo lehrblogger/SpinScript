@@ -108,7 +108,8 @@ var data = {
 //     }
 //   ]
 // }
-var ride_duration = data.duration * 60
+var intro_duration = 60;
+var ride_duration = data.duration * 60;
 var sections = [];
 if (data.sections.length > 62) {
   console.log(`Error: Only the first 62 of ${data.sections.length} sections can be scheduled.`);
@@ -124,14 +125,14 @@ function scheduleNotification(title, body, seconds) {
   notif.threadIdentifier = 'com.scriptable.spinscript'; 
   notif.title = title;
   notif.body = body;
-  notif.setTriggerDate(new Date(start.getTime() + 5000 + seconds * 1000/* / 15*/));
+  notif.setTriggerDate(new Date(start.getTime() + 5000 + (intro_duration + seconds) * 1000/* / 15*/));
   notif.schedule();
 }
 
 await Notification.removeAllPending();
-scheduleNotification(`On your bike, tap now to start the ride's 1-minute intro`,
-                     ``,
-                     -60);
+scheduleNotification(`On your bike, tap now to start the ride's ${intro_duration}-second intro`,
+                     `Next: ${sections[0].targets()}`,
+                     -1 * intro_duration);
 for (var i = 0; i < sections.length - 1; i++) {
   scheduleNotification(`${sections[i].targets()} for ${sections[i].duration(sections[i + 1].remaining_before_section)}`,
                        `Next: ${sections[i + 1].targets()}`,
