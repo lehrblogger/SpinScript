@@ -43,6 +43,21 @@ var rides = [{
       zone: 'redacted'
     }
   ]
+}, {
+  url: 'redacted',
+  title: 'redacted',
+  instructor: 'redacted',
+  timetamp: 'redacted',
+  duration: 30,
+  sections: [
+    {
+      verb: `redacted`,
+      timestamp: '30:00',
+      cadence: 'redacted',
+      resistance: 'redacted',
+      zone: 'redacted'
+    }
+  ]
 }];
 
 module.exports.ride_names = () => {
