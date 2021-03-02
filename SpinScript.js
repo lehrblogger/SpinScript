@@ -2,6 +2,8 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: red; icon-glyph: bicycle;
 
+var debug = false;
+
 class Section {
   constructor(d) {
     this.verb = d['verb'];
@@ -76,54 +78,8 @@ class Section {
   }
 }
 
-var data = {
-  url: 'redacted',
-  title: 'redacted',
-  instructor: 'redacted',
-  timetamp: 'redacted',
-  duration: 45,
-  sections: [
-    {
-      verb: `redacted`,
-      timestamp: '45:00',
-      cadence: 'redacted',
-      resistance: 'redacted',
-      zone: 'redacted',
-    }
-  ]
-}
-// var data = {
-//   url: 'redacted',
-//   title: 'redacted',
-//   instructor: 'redacted',
-//   timetamp: 'redacted',
-//   duration: 45,
-//   sections: [
-//     {
-//       verb: `redacted`,
-//       timestamp: '45:00',
-//       cadence: 'redacted',
-//       resistance: 'redacted',
-//       zone: 'redacted',
-//     }
-//   ]
-// }
-// var data = {
-//   url: 'redacted',
-//   title: 'redacted',
-//   instructor: 'redacted',
-//   timetamp: 'redacted',
-//   duration: 30,
-//   sections: [
-//     {
-//       verb: `redacted`,
-//       timestamp: '30:00',
-//       cadence: 'redacted',
-//       resistance: 'redacted',
-//       zone: 'redacted'
-//     }
-//   ]
-// }
+let rides = importModule('data/rides.js');
+var data = rides.ride_data();
 var intro_duration = 60;
 var ride_duration = data.duration * 60;
 var sections = [];
@@ -141,7 +97,7 @@ function scheduleNotification(title, body, seconds) {
   notif.threadIdentifier = 'com.scriptable.spinscript'; 
   notif.title = title;
   notif.body = body;
-  notif.setTriggerDate(new Date(start.getTime() + 5000 + (intro_duration + seconds) * 1000/* / 15*/));
+  notif.setTriggerDate(new Date(start.getTime() + 5000 + (intro_duration + seconds) * 1000 / (debug ? 15 : 1)));
   notif.schedule();
 }
 
