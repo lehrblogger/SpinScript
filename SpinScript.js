@@ -78,22 +78,35 @@ class Section {
   }
 }
 
-let rides = importModule('data/rides.js');
-var data = rides.ride_data();
-var intro_duration = 60;
-var ride_duration = data.duration * 60;
-var sections = [];
-if (data.sections.length > 62) {
-  console.log(`Error: Only the first 62 of ${data.sections.length} sections can be scheduled.`);
+await Notification.removeAllPending();
+let rides_module = importModule('data/rides.js');
+let ride_names = rides_module.ride_names();
+let input = new Alert();
+input.title = "Select a Ride";
+input.addCancelAction("Cancel");
+for (var i = 0; i < ride_names.length; i++) {
+  input.addAction(ride_names[i]);
+}
+let index = await input.present();
+if (index == -1) {
   return;
 }
-for (var i = 0; i < data.sections.length; i++) {
-  sections.push(new Section(data.sections[i]));
+var ride_data = rides_module.ride_data(index);
+
+let intro_duration = 60;
+let ride_duration = ride_data.duration * 60;
+let sections = [];
+if (ride_data.sections.length > 62) {
+  console.log(`Error: Only the first 62 of ${ride_data.sections.length} sections can be scheduled.`);
+  return;
 }
-var start = new Date();
+for (var i = 0; i < ride_data.sections.length; i++) {
+  sections.push(new Section(ride_data.sections[i]));
+}
+let start = new Date();
 
 function scheduleNotification(title, body, seconds) {
-  var notif = new Notification();
+  let notif = new Notification();
   notif.threadIdentifier = 'com.scriptable.spinscript'; 
   notif.title = title;
   notif.body = body;
@@ -101,7 +114,6 @@ function scheduleNotification(title, body, seconds) {
   notif.schedule();
 }
 
-await Notification.removeAllPending();
 scheduleNotification(`On your bike, tap now to start the ride's ${intro_duration}-second intro`,
                      `Next: ${sections[0].targets()}`,
                      -1 * intro_duration);
