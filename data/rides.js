@@ -3,6 +3,21 @@ var rides = [{
   title: 'redacted',
   instructor: 'redacted',
   timetamp: 'redacted',
+  duration: 45,
+  sections: [
+    {
+      verb: `redacted`,
+      timestamp: '45:00',
+      cadence: 'redacted',
+      resistance: 'redacted',
+      zone: 'redacted'
+    }
+  ]
+}, {
+  url: 'redacted',
+  title: 'redacted',
+  instructor: 'redacted',
+  timetamp: 'redacted',
   duration: 30,
   sections: [
     {
