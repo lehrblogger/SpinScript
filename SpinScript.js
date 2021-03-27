@@ -108,6 +108,7 @@ let start = new Date();
 function scheduleNotification(title, body, seconds) {
   let notif = new Notification();
   notif.threadIdentifier = 'com.scriptable.spinscript'; 
+  notif.sound = 'popup';
   notif.title = title;
   notif.body = body;
   notif.setTriggerDate(new Date(start.getTime() + 5000 + (intro_duration + seconds) * 1000 / (debug ? 15 : 1)));
