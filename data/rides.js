@@ -1,6 +1,7 @@
 var rides = [{
   url: 'redacted',
   title: 'redacted',
+  custom_title: 'redacted',
   instructor: 'redacted',
   timestamp: 'redacted',
   duration: 45,
@@ -16,8 +17,9 @@ var rides = [{
 }, {
   url: 'redacted',
   title: 'redacted',
+  custom_title: 'redacted',
   instructor: 'redacted',
-  timestamp: 'redacted',
+  timetamp: 'redacted',
   duration: 45,
   sections: [
     {
@@ -31,6 +33,7 @@ var rides = [{
 }, {
   url: 'redacted',
   title: 'redacted',
+  custom_title: 'redacted',
   instructor: 'redacted',
   timetamp: 'redacted',
   duration: 30,
@@ -46,6 +49,7 @@ var rides = [{
 }, {
   url: 'redacted',
   title: 'redacted',
+  custom_title: 'redacted',
   instructor: 'redacted',
   timetamp: 'redacted',
   duration: 45,
@@ -61,6 +65,7 @@ var rides = [{
 }, {
   url: 'redacted',
   title: 'redacted',
+  custom_title: 'redacted',
   instructor: 'redacted',
   timetamp: 'redacted',
   duration: 45,
@@ -76,6 +81,7 @@ var rides = [{
 }, {
   url: 'redacted',
   title: 'redacted',
+  custom_title: 'redacted',
   instructor: 'redacted',
   timetamp: 'redacted',
   duration: 30,
@@ -91,7 +97,7 @@ var rides = [{
 }];
 
 module.exports.ride_names = () => {
-  return rides.map(ride => `${ride.title} by ${ride.instructor}`)
+  return rides.map(ride => `${ride.custom_title ? ride.custom_title : ride.title} by ${ride.instructor.split(' ')[0]}`);
 }
 
 module.exports.ride_data = (index) => {
