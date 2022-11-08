@@ -1,113 +1,17 @@
 var rides = [{
-  url: 'redacted',
-  title: 'redacted',
-  custom_title: 'redacted',
-  instructor: 'redacted',
-  timestamp: 'redacted',
+  url: 'sample',
+  title: 'sample',
+  custom_title: 'sample',
+  instructor: 'sample',
+  timestamp: 'sample',
   duration: 30,
   sections: [
     {
-      verb: `redacted`,
+      verb: `sample`,
       timestamp: '30:00',
-      cadence: 'redacted',
-      resistance: 'redacted',
-      zone: 'redacted'
-    }
-  ]
-}, {
-  url: 'redacted',
-  title: 'redacted',
-  custom_title: 'redacted',
-  instructor: 'redacted',
-  timestamp: 'redacted',
-  duration: 45,
-  sections: [
-    {
-      verb: `redacted`,
-      timestamp: '45:00',
-      cadence: 'redacted',
-      resistance: 'redacted',
-      zone: 'redacted',
-    }
-  ]
-}, {
-  url: 'redacted',
-  title: 'redacted',
-  custom_title: 'redacted',
-  instructor: 'redacted',
-  timetamp: 'redacted',
-  duration: 45,
-  sections: [
-    {
-      verb: `redacted`,
-      timestamp: '45:00',
-      cadence: 'redacted',
-      resistance: 'redacted',
-      zone: 'redacted'
-    }
-  ]
-}, {
-  url: 'redacted',
-  title: 'redacted',
-  custom_title: 'redacted',
-  instructor: 'redacted',
-  timetamp: 'redacted',
-  duration: 30,
-  sections: [
-    {
-      verb: `redacted`,
-      timestamp: '30:00',
-      cadence: 'redacted',
-      resistance: 'redacted',
-      zone: 'redacted'
-    }
-  ]
-}, {
-  url: 'redacted',
-  title: 'redacted',
-  custom_title: 'redacted',
-  instructor: 'redacted',
-  timetamp: 'redacted',
-  duration: 45,
-  sections: [
-    {
-      verb: `redacted`,
-      timestamp: '45:00',
-      cadence: 'redacted',
-      resistance: 'redacted',
-      zone: 'redacted'
-    }
-  ]
-}, {
-  url: 'redacted',
-  title: 'redacted',
-  custom_title: 'redacted',
-  instructor: 'redacted',
-  timetamp: 'redacted',
-  duration: 45,
-  sections: [
-    {
-      verb: `redacted`,
-      timestamp: '45:00',
-      cadence: 'redacted',
-      resistance: 'redacted',
-      zone: 'redacted'
-    }
-  ]
-}, {
-  url: 'redacted',
-  title: 'redacted',
-  custom_title: 'redacted',
-  instructor: 'redacted',
-  timetamp: 'redacted',
-  duration: 30,
-  sections: [
-    {
-      verb: `redacted`,
-      timestamp: '30:00',
-      cadence: 'redacted',
-      resistance: 'redacted',
-      zone: 'redacted'
+      cadence: 'sample',
+      resistance: 'sample',
+      zone: 'sample'
     }
   ]
 }];
